@@ -55,10 +55,10 @@ resource "aws_organizations_policy" "NimbusOrgScp" {
 # Policy attachment
 resource "aws_organizations_policy_attachment" "NimbusDevScpAttch" {
   policy_id = aws_organizations_policy.NimbusOrgScp.id
-  target_id = aws_organizations_organizational_unit.nimbus-dev.id
+  target_id = aws_organizations_organizational_unit.nimbus-dev-ou.id
 }
 
 resource "aws_organizations_policy_attachment" "NimbusProdScpAttch" {
   policy_id = aws_organizations_policy.NimbusOrgScp.id
-  target_id = aws_organizations_organizational_unit.nimbus-prod.id
+  target_id = aws_organizations_organizational_unit.nimbus-prod-ou.id
 }
