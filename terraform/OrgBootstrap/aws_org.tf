@@ -6,4 +6,9 @@ resource "aws_organizations_organization" "nimbus-cloud" {
   ]
 
   feature_set = "ALL"
+
+  # protection against accidental tf destroy
+  lifecycle {
+    prevent_destroy = true
+  }
 }
