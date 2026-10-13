@@ -48,6 +48,9 @@ resource "aws_organizations_policy" "NimbusOrgScp" {
   description = "Service Control Policy for Nimbus cloud Organization"
   content     = data.aws_iam_policy_document.NimbusOrgIamPolicy.json
   type        = "SERVICE_CONTROL_POLICY"
+
+  # the below tells tf to wait for the organization to be created before applying the policy
+  depends_on = [aws_organizations_organization.nimbus-cloud]
 }
 
 
