@@ -11,4 +11,9 @@ resource "aws_organizations_organization" "nimbus-cloud" {
   lifecycle {
     prevent_destroy = true
   }
+
+  # Add this line to enable Service Control Policies
+  enabled_policy_types = [
+    "SERVICE_CONTROL_POLICY"
+  ]
 }
