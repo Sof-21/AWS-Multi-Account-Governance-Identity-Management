@@ -17,3 +17,9 @@ resource "aws_identitystore_group_membership" "Support-membership" {
   group_id          = aws_identitystore_group.Support.group_id
   member_id         = aws_identitystore_user.ZackParker.user_id
 }
+
+resource "aws_identitystore_group_membership" "Devops-membership" {
+  identity_store_id = tolist(data.aws_ssoadmin_instances.nimbus-identity-center.identity_store_ids)[0]
+  group_id          = aws_identitystore_group.DevOps.group_id
+  member_id         = aws_identitystore_user.JohnMayer.user_id
+}

@@ -38,6 +38,25 @@ resource "aws_identitystore_user" "RachelMarcus" {
 }
 
 
+# Creating a DevOps user
+resource "aws_identitystore_user" "JohnMayer" {
+  identity_store_id = tolist(data.aws_ssoadmin_instances.nimbus-identity-center.identity_store_ids)[0]
+
+  display_name = "John Mayer"
+  user_name    = "jmayer"
+
+  name {
+    given_name  = "John"
+    family_name = "Mayer"
+  }
+
+  emails {
+    value = "jmayer@nimbus.proton.me"
+  }
+
+  title = "DevOps Engineer"
+}
+
 # Creating a Support user
 resource "aws_identitystore_user" "ZackParker" {
   identity_store_id = tolist(data.aws_ssoadmin_instances.nimbus-identity-center.identity_store_ids)[0]
