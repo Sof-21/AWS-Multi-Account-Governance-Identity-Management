@@ -31,7 +31,7 @@ resource "aws_identitystore_user" "RachelMarcus" {
   }
 
   emails {
-    value = "rmarcus@nimbus.proton.me"
+    value = "rmarcus2@proton.me"
   }
 
   title = "Human Resources Manager"
