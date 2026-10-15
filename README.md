@@ -11,3 +11,9 @@ Note: unfortunately terraform, aws cli/sdk both does not provide an automated/sc
 <p>
   <img src="https://skillicons.dev/icons?i=terraform,aws,git,github" />
 </p>
+
+
+
+## Design choices
+### multiple use of resource "aws_ssoadmin_account_assignment"
+In my Permission_set.tf file i used the above tf command to assign permission sets to respective aws accounts. i used to repeat the above command over using `for_each` loop, my reason is its simpler, in my case i only have two accounts dev and prod, so this approach was suitable for me. in cases where there are a lot more of aws account needing to be assigned with permission sets, then usage of `for_each` would be the best option.
