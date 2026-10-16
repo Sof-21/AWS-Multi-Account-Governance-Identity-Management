@@ -11,7 +11,7 @@ resource "aws_identitystore_user" "LeoVance" {
   }
 
   emails {
-    value = "lvance@nimbus.proton.me"
+    value = "lvance2@proton.me"
   }
 
   title = "Software Engineer"
@@ -51,7 +51,7 @@ resource "aws_identitystore_user" "JohnMayer" {
   }
 
   emails {
-    value = "jmayer@nimbus.proton.me"
+    value = "jmayer2@proton.me"
   }
 
   title = "DevOps Engineer"
@@ -70,7 +70,7 @@ resource "aws_identitystore_user" "ZackParker" {
   }
 
   emails {
-    value = "zparker@nimbus.proton.me"
+    value = "zparker2@proton.me"
   }
 
   title = "Support Engineer"
