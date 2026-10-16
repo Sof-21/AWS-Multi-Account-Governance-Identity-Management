@@ -76,8 +76,8 @@ resource "aws_ssoadmin_account_assignment" "HR-group-assignment" {
 resource "aws_ssoadmin_permission_set" "DevOps_permission_set" {
   name             = "DevOps_Permission"
   instance_arn     = tolist(data.aws_ssoadmin_instances.nimbus-identity-center.arns)[0]
-  relay_state      = "https://eks.console.aws.amazon.com/eks/home?region=us-east-1#" # The URL to redirect to after login to eks page
-  session_duration = "PT8H"                                                          # The duration of the session for DevOps team - 8 hours
+  relay_state      = "https://console.aws.amazon.com/eks/home?region=us-east-1#/clusters" # The URL to redirect to after login to eks page
+  session_duration = "PT8H"                                                               # The duration of the session for DevOps team - 8 hours
 }
 
 resource "aws_ssoadmin_managed_policy_attachment" "DevopsPolicy" {
@@ -120,9 +120,10 @@ resource "aws_ssoadmin_account_assignment" "DevOps-group-dev-assignment" {
 
 # Support Permission sets - uses aws managed ReadOnlyAccess policy
 resource "aws_ssoadmin_permission_set" "Support_permission_set" {
-  name             = "Support_Permission"
+  name             = "Support_ReadOnly_Permission"
   instance_arn     = tolist(data.aws_ssoadmin_instances.nimbus-identity-center.arns)[0]
-  session_duration = "PT8H" # The duration of the session for Support team - 8 hours
+  session_duration = "PT8H"                                                             # The duration of the session for Support team - 8 hours
+  relay_state      = "https://console.aws.amazon.com/cloudwatch/home?region=us-east-1#" # url to redirect to cloudwatch for support to monitor
 }
 
 resource "aws_ssoadmin_managed_policy_attachment" "SupportPolicy" {
@@ -165,8 +166,8 @@ resource "aws_ssoadmin_account_assignment" "Support-group-dev-assignment" {
 resource "aws_ssoadmin_permission_set" "Developer_crucial_permission_set" {
   name             = "Developer_Crucial_Permission"
   instance_arn     = tolist(data.aws_ssoadmin_instances.nimbus-identity-center.arns)[0]
-  relay_state      = "https://ecr.console.aws.amazon.com/ecr/home?region=us-east-1#" # The URL to redirect to after login to ecr page
-  session_duration = "PT8H"                                                          # The duration of the session for Developer team - 8 hours
+  relay_state      = "https://console.aws.amazon.com/ecr/home?region=us-east-1#" # The URL to redirect to after login to ecr page
+  session_duration = "PT8H"                                                      # The duration of the session for Developer team - 8 hours
 }
 
 resource "aws_ssoadmin_managed_policy_attachment" "DeveloperCrucialPolicy" {
