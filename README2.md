@@ -123,13 +123,11 @@ Each directory is intended to be operated as a separate Terraform root configura
 ## Security Design Considerations
 
 - **Least privilege:** Grant only the permissions required for each team's responsibilities.
-- **Production access:** Avoid broad production write access unless the business requirement justifies it; consider controlled elevation for sensitive operations.
-- **SCP behavior:** SCPs define maximum available permissions for affected principals in member accounts. They do not grant permissions by themselves, and they do not restrict principals in the management account in the same way they restrict member accounts.
-- **Management account protection:** Keep administrative access tightly controlled and take care when applying organization-wide policies.
-- **S3 access:** `s3:ListAllMyBuckets` allows a user to list bucket names in the account; it does not limit the returned names to a single bucket. Bucket listing and object access require their own appropriately scoped permissions.
-- **Terraform state:** State files may contain sensitive information. Restrict access and use appropriate storage and locking practices if remote state is configured.
-- **Credentials:** Avoid committing access keys, secret values, private keys, or state files to version control.
-- **Testing:** Validate both allowed and denied actions rather than assuming a policy behaves as intended.
+- **Production access:** Avoid broad production write access unless the business requirement justifies it.
+- **SCP behavior:** SCPs define maximum available permissions for affected principals in member accounts. They should do not restrict principals in the management account in the same way they restrict member accounts.
+
+- **S3 access:** HR team can only list the bucket and download from `hr-yearly-report` bucket, no upload should be allowed.
+- **Terraform state:** State managed via s3 backend, will need to restrict access and use appropriate storage and lock.
 
 <br>
 <br>
