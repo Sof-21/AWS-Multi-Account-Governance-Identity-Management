@@ -17,3 +17,6 @@ override.tf.json
 
 # Exclude plan files
 *.tfplan
+
+# Exclude Other files
+.DS_Store
