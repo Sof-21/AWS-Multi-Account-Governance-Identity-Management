@@ -1,6 +1,7 @@
-# Nimbus Cloud — AWS Multi-Account Governance & Identity Management
+# Nimbus Cloud:  AWS Multi-Account Governance & Identity Management
+<br>
 
-# Chapter One — Design and Architecture
+# Chapter One: Design and Architecture
 
 ## Overview
 
@@ -10,13 +11,13 @@ The project is presented as a fictional engineering engagement for **Nimbus Clou
 
 The implementation is intended to demonstrate practical cloud engineering skills, infrastructure as code, identity and access management, and security-conscious design.
 
-> **Project note:** Nimbus Cloud is a fictional company used to frame the technical scenario. This repository documents a portfolio/lab implementation. Distinguish clearly between features already implemented and features that remain planned or in progress.
+> **Project note:** Nimbus Cloud is a fictional company used to frame the technical scenario. This repository documents a portfolio/lab implementation.
 
 ## Business Scenario
 
 Nimbus Cloud is growing and now operates multiple AWS accounts. Its teams need access to cloud resources to perform their daily responsibilities, but access must be controlled consistently across development and production environments.
 
-The company has asked a cloud engineer to establish a foundational AWS governance and identity-management model that:
+The company has asked us to establish a foundational AWS governance and identity-management model that:
 
 - Organizes AWS accounts into clear development and production environments.
 - Establishes security guardrails through Service Control Policies (SCPs).
@@ -38,55 +39,34 @@ The company has asked a cloud engineer to establish a foundational AWS governanc
 
 ## Proposed Architecture
 
-```text
-                         Nimbus Cloud
-                       AWS Organization
-                              |
-                 +------------+------------+
-                 |                         |
-              DEV OU                    PROD OU
-                 |                         |
-        Development Account       Production Account
-                 |                         |
-                 +------------+------------+
-                              |
-                  IAM Identity Center
-                              |
-          +-------------------+-------------------+
-          |             |             |           |
-        DevOps       Developers     Support       HR
-          |             |             |           |
-          +------ Permission Sets & Account ------+
-                         Assignments
-```
-
-**Important:** OUs organize AWS accounts and are targets for SCPs. IAM Identity Center permission sets are assigned to individual AWS accounts, not directly to OUs. If a group needs access to both DEV and PROD, an account assignment is created for each account.
-
-The diagram is conceptual. Update it if the final implementation uses a different account hierarchy or assignment model.
+![Nimbus Cloud AWS Goverance](/Docs/Screenshots/repoImages/Nimbus%20Cloud%20AWS%20Governance.png)
 
 ## Team Access Model
-
-The following is the proposed access model. The final permissions should reflect the permission sets, policies, and account assignments actually implemented.
+The final permissions should reflect the permission sets, policies, and account assignments as planned.
 
 | Team | DEV account | PROD account | Access rationale |
 |---|---|---|---|
-| DevOps | Administrative access as required | Administrative or controlled elevated access | Operate and maintain cloud infrastructure |
-| Developers | Development permissions | Read-only or restricted access | Build and test in DEV while limiting production changes |
-| Support | Read-only operational access | Read-only operational access | Investigate issues without routine write access |
-| Human Resources | Access to designated HR reports in S3 | Access to designated HR reports in S3, if required | Retrieve approved reports without broad AWS access |
+| DevOps | Administrative access  | Administrative access | Operate and maintain cloud infrastructure |
+| Developers | Development Crucial permissions | Read-only access | Build and test in DEV while limiting production changes |
+| Support | Read-only operational access | Read-only operational access | Monitor Infra and Investigate issues without routine write access |
+| Human Resources | Access to designated HR reports in S3 | Access to designated HR reports in S3 | Retrieve approved reports without broad AWS access |
 
-This table is a design proposal, not a claim that every permission has already been implemented. Update it to match the actual permission sets and account assignments.
 
 ## Technology Stack
+
 
 - **Amazon Web Services (AWS)**
   - AWS Organizations
   - AWS Organizations Service Control Policies (SCPs)
   - AWS IAM Identity Center
   - AWS IAM policies and permission sets
-  - Amazon S3 for the HR report-access demonstration, where applicable
 - **Terraform** — Infrastructure as Code (IaC)
 - **Git** — Version control and change tracking
+
+<p align="center">
+  <img src="https://skillicons.dev/icons?i=terraform,aws,git" />
+</p>
+
 
 ## Repository Structure
 
@@ -100,22 +80,23 @@ The Terraform configurations are separated by responsibility. The exact file nam
 │   ├── accounts.tf
 │   ├── organizational_units.tf
 │   ├── scp.tf
+|   ├── backend.tf
 │   ├── outputs.tf
 │   └── variables.tf
 │
 ├── identity-center/
 │   ├── providers.tf
-│   ├── data.tf
+│   ├── backend.tf
 │   ├── groups.tf
 │   ├── users.tf
 │   ├── permission_sets.tf
-│   ├── account_assignments.tf
+│   ├── identity-store.tf
+|   ├── outputs.tf
 │   └── variables.tf
 │
 └── README.md
 ```
 
-This is an illustrative structure. Keep only files and resources that exist in the repository.
 
 ### `orgbootstrap/`
 
@@ -133,13 +114,11 @@ Responsible for workforce identity and access, including:
 - Identity Center groups and users.
 - Permission sets and their associated policies.
 - Account assignments connecting groups to permission sets in individual AWS accounts.
-- Inputs or data sources used to obtain target account IDs.
+
 
 ## State and Configuration Boundaries
 
-Each directory is intended to be operated as a separate Terraform root configuration. Resources declared in one root configuration cannot be referenced directly from another. Values such as account IDs must be passed through variables, outputs and a suitable state-sharing mechanism, or another controlled configuration interface.
-
-If Terraform remote state is used, protect access to the state because it may contain sensitive information beyond the outputs being consumed.
+Each directory is intended to be operated as a separate Terraform root configuration. Resources declared in one root configuration cannot be referenced directly from another. Values such as account IDs must be passed through variables, outputs.
 
 ## Security Design Considerations
 
@@ -152,9 +131,11 @@ If Terraform remote state is used, protect access to the state because it may co
 - **Credentials:** Avoid committing access keys, secret values, private keys, or state files to version control.
 - **Testing:** Validate both allowed and denied actions rather than assuming a policy behaves as intended.
 
----
+<br>
+<br>
+<br>
 
-# Chapter Two — Implementation
+# Chapter Two: Implementation
 
 > **Status note:** This chapter separates the intended implementation workflow from the actual configuration. Replace planned items with the resources, policies, assignments, and decisions that are present in the repository. Do not describe a planned feature as completed until it has been implemented.
 
@@ -283,7 +264,7 @@ Validation should demonstrate that the configured governance and access controls
 | DevOps accesses DEV | Access matches the DevOps permission set | TODO — record actual result |
 | DevOps accesses PROD | Access matches the approved production model | TODO — record actual result |
 | Developer attempts a restricted production action | Action is denied | TODO — record actual result |
-| Support performs an unauthorized write action | Action is denied | TODO — record actual result |
+| Support only have ReadOnlyAccess | Action is denied | TODO — record actual result |
 | HR lists and downloads an approved report | Access is allowed as designed | TODO — record actual result |
 | HR attempts to upload or delete an object | Action is denied if not granted elsewhere | TODO — record actual result |
 | SCP guardrail is tested | Restricted action is denied in the intended scope | TODO — record actual result |
