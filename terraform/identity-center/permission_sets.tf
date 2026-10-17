@@ -170,11 +170,38 @@ resource "aws_ssoadmin_permission_set" "Developer_crucial_permission_set" {
   session_duration = "PT8H"                                                      # The duration of the session for Developer team - 8 hours
 }
 
+
+# Created inline policy for developers as the managed permission does not allow creation of ecr repo.
+data "aws_iam_policy_document" "Dev_Ecr_Policy" {
+  statement {
+    sid    = "AllowEcrRepoCreation"
+    effect = "Allow"
+
+    actions = [
+      "ecr:CreateRepository",
+    ]
+
+    resources = ["*"]
+  }
+
+
+}
+
+resource "aws_ssoadmin_permission_set_inline_policy" "DevInlinePolicyDoc" {
+  inline_policy      = data.aws_iam_policy_document.Dev_Ecr_Policy.json
+  instance_arn       = tolist(data.aws_ssoadmin_instances.nimbus-identity-center.arns)[0]
+  permission_set_arn = aws_ssoadmin_permission_set.Developer_crucial_permission_set.arn
+
+}
+
 resource "aws_ssoadmin_managed_policy_attachment" "DeveloperCrucialPolicy" {
   instance_arn       = tolist(data.aws_ssoadmin_instances.nimbus-identity-center.arns)[0]
   managed_policy_arn = "arn:aws:iam::aws:policy/AmazonEC2ContainerRegistryPowerUser"
   permission_set_arn = aws_ssoadmin_permission_set.Developer_crucial_permission_set.arn
 }
+
+
+
 
 # Developers Permission set assignment to DevOps group
 resource "aws_ssoadmin_account_assignment" "Developers-group-prod-assignment" {
