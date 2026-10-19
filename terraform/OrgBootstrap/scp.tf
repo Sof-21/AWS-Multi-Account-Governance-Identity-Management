@@ -4,11 +4,12 @@ data "aws_iam_policy_document" "NimbusOrgIamPolicy" {
 
   # A statement to restrict member accounts from leaving the organization
   statement {
-    sid    = "DenyLeavingTheOrganization"
+    sid    = "DenyLeavingTheOrganizationAndOU"
     effect = "Deny"
     actions = [
       "organizations:DeleteOrganization",
-      "organizations:LeaveOrganization"
+      "organizations:LeaveOrganization",
+      "organizations:MoveAccount"
     ]
     resources = ["*"]
   }
