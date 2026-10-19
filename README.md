@@ -3,9 +3,12 @@ This project is a learning demo on how to configure aws organization and identit
 Test
 
 
-
+### What terraform cant do?
+#### initialize/enable identity center 
 Note: unfortunately terraform, aws cli/sdk both does not provide an automated/script way to initialize identity center inside the organization. the only available command would be `create-instance`, but, it will initiialize identity center as a standalone product  that is not managed by organizations or member aws account in the organization. In this case, the only option was to use the aws console to initialize identity center in us-east-1 region, or any region of your choice.
 
+#### identity center setting management
+Terraform currently does not manage the highlevel settings and access portal url. incase you prefer a custom start url then you would need to do it manually from the identity center settings page.
 
 ### Tech Stack
 <p>
