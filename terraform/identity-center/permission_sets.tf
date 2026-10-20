@@ -62,7 +62,7 @@ resource "aws_ssoadmin_account_assignment" "HR-group-assignment" {
   principal_id   = aws_identitystore_group.HumanResources.group_id # HR group ID
   principal_type = "GROUP"
 
-  target_id   = "989524731242" # Prod account ID, no dev account assigment for HR team.
+  target_id   = var.prod-account-id # Prod account ID, no dev account assignment for HR team.
   target_type = "AWS_ACCOUNT"
 }
 
@@ -94,7 +94,7 @@ resource "aws_ssoadmin_account_assignment" "DevOps-group-prod-assignment" {
   principal_id   = aws_identitystore_group.DevOps.group_id # DevOps group ID
   principal_type = "GROUP"
 
-  target_id   = "989524731242" # Prod account ID
+  target_id   = var.prod-account-id # Prod account ID
   target_type = "AWS_ACCOUNT"
 
 }
@@ -106,7 +106,7 @@ resource "aws_ssoadmin_account_assignment" "DevOps-group-dev-assignment" {
   principal_id   = aws_identitystore_group.DevOps.group_id # DevOps group ID
   principal_type = "GROUP"
 
-  target_id   = "664679684136" # Dev account ID
+  target_id   = var.dev-account-id # Dev account ID
   target_type = "AWS_ACCOUNT"
 
 }
@@ -141,7 +141,7 @@ resource "aws_ssoadmin_account_assignment" "Support-group-prod-assignment" {
   principal_id   = aws_identitystore_group.Support.group_id # Support group ID
   principal_type = "GROUP"
 
-  target_id   = "989524731242" # Prod account ID
+  target_id   = var.prod-account-id # Prod account ID
   target_type = "AWS_ACCOUNT"
 
 }
@@ -153,7 +153,7 @@ resource "aws_ssoadmin_account_assignment" "Support-group-dev-assignment" {
   principal_id   = aws_identitystore_group.Support.group_id # Support group ID
   principal_type = "GROUP"
 
-  target_id   = "664679684136" # Dev account ID
+  target_id   = var.dev-account-id # Dev account ID
   target_type = "AWS_ACCOUNT"
 
 }
@@ -211,7 +211,7 @@ resource "aws_ssoadmin_account_assignment" "Developers-group-prod-assignment" {
   principal_id   = aws_identitystore_group.Developer.group_id # Developers group ID
   principal_type = "GROUP"
 
-  target_id   = "989524731242" # Prod account ID
+  target_id   = var.prod-account-id # Prod account ID
   target_type = "AWS_ACCOUNT"
 
 }
@@ -223,7 +223,7 @@ resource "aws_ssoadmin_account_assignment" "Developer-group-dev-assignment" {
   principal_id   = aws_identitystore_group.Developer.group_id # Developers group ID
   principal_type = "GROUP"
 
-  target_id   = "664679684136" # Dev account ID
+  target_id   = var.dev-account-id # Dev account ID
   target_type = "AWS_ACCOUNT"
 
 }
