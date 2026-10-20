@@ -348,7 +348,7 @@ The user can access both Nimbus Development and Nimbus Production with the `DevO
 The user could access both assigned accounts with administrative permissions.
 
 ### Evidence
-!["Devops Permission"](/Docs/Screenshots/evidence/Devops_Perm.png)
+!["Devops Permission"](/Docs/Screenshots/evidence/DevOps_Perm.png)
 
 ### 3.4 Test 2: Service Control Policy Enforcement
 #### Objective
