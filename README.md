@@ -474,7 +474,7 @@ CloudWatch relay state:
 
 ### 3.8 Limitations and Future Improvements
 
-> red: To be added
+> [!CAUTION] To be added
 
 
 ### 3.9 Cleanup and Resource Lifecycle
@@ -499,5 +499,5 @@ Before cleaning up:
 4. Follow the applicable AWS procedures for closing or removing member accounts.
 5. Handle the organization lifecycle protection deliberately and verify the consequences before attempting organization deletion.
 
-> #### Disclaimer
+> [Disclaimer]
 > This is a portfolio project using a fictional company scenario. It demonstrates selected AWS governance and identity-management patterns and is not intended to represent a complete production landing zone or a universal security baseline. Production implementations should be adapted to business requirements, risk, compliance obligations, and operational processes.
