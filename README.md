@@ -251,7 +251,7 @@ Support receives read-only access to both accounts. HR has no DEV assignment and
 
 
 ### 2.5 Stage Three: HR S3 Report Access
-The production account contains the `hr-yearly-report` S3 bucket used to demonstrate restricted access to business reports.
+The production account contains the manually provisioned `hr-yearly-report` S3 bucket used to demonstrate restricted access to business reports.
 
 The bucket is a prerequisite for the HR access validation. It is created separately from the organization and Identity Center foundation.
 
@@ -268,7 +268,7 @@ Before deploying the configuration, ensure that the following prerequisites are 
 - IAM Identity Center has been initialized manually in `us-east-1` as an organization-integrated service.
 - The organization foundation has been created before the Identity Center configuration is applied.
 - Member account IDs are available to the Identity Center configuration through the relevant variables.
-- The `hr-yearly-report` bucket is created in the production account before the HR access test is performed.
+- The `hr-yearly-report` bucket is manually created in the production account before the HR access test is performed.
 
 ### 2.7 Terraform Workflow
 #### Organization Configuration
@@ -302,9 +302,9 @@ terraform apply
 Review the plan to confirm that the intended Identity Center instance, users, groups, permission sets, and account assignments are targeted.
 
 #### HR Bucket Prerequisite
-Before validating HR access, create the `hr-yearly-report` bucket in the production account using the dedicated hr-bucket.tf configuration.
+Before validating HR access, create the `hr-yearly-report` general bucket in the production account manually. 
 
-The bucket must exist before the HR policy can be tested against the intended resource. Ensure that the bucket is created in the correct account and Region and that the test reports are available.
+The bucket must exist before the HR policy can be tested against the intended resource. Ensure that the bucket is created in the correct account and Region.
 
 ---
 <br>
