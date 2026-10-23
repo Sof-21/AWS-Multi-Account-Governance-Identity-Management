@@ -1,3 +1,4 @@
+# Required providers
 terraform {
   required_providers {
     aws = {
@@ -7,7 +8,7 @@ terraform {
   }
 }
 
-
+# AWS Provider and region
 provider "aws" {
   region = "us-east-1"
 }

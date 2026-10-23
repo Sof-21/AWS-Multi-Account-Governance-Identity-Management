@@ -1,5 +1,5 @@
 
-# permission set for Human Resources team.
+# Permission set for Human Resources team.
 resource "aws_ssoadmin_permission_set" "HumanResource_permission_set" {
   name             = "HumanResources_Permission"
   instance_arn     = tolist(data.aws_ssoadmin_instances.nimbus-identity-center.arns)[0]
@@ -7,6 +7,7 @@ resource "aws_ssoadmin_permission_set" "HumanResource_permission_set" {
   session_duration = "PT8H"                                                        # The duration of the session for HR team - 8 hours
 }
 
+# HR Policy Document Creation
 data "aws_iam_policy_document" "HR_Policy" {
   statement {
     sid    = "HRS3ListAllBuckets"
@@ -47,6 +48,7 @@ data "aws_iam_policy_document" "HR_Policy" {
 }
 
 
+# Attaching the policy as inline policy for HR Permission Set.
 resource "aws_ssoadmin_permission_set_inline_policy" "HRPolicyDoc" {
   inline_policy      = data.aws_iam_policy_document.HR_Policy.json
   instance_arn       = tolist(data.aws_ssoadmin_instances.nimbus-identity-center.arns)[0]
@@ -70,8 +72,9 @@ resource "aws_ssoadmin_account_assignment" "HR-group-assignment" {
 # ------------
 
 
+
 # ------------
-# Devops Permission sets - uses aws managed AdministratorAccess policy
+# Devops Permission sets creation - uses aws managed AdministratorAccess policy
 
 resource "aws_ssoadmin_permission_set" "DevOps_permission_set" {
   name             = "DevOps_Permission"
@@ -80,6 +83,7 @@ resource "aws_ssoadmin_permission_set" "DevOps_permission_set" {
   session_duration = "PT8H"                                                               # The duration of the session for DevOps team - 8 hours
 }
 
+# Assigning DevOps managed policy to DevOps Permission Set
 resource "aws_ssoadmin_managed_policy_attachment" "DevopsPolicy" {
   instance_arn       = tolist(data.aws_ssoadmin_instances.nimbus-identity-center.arns)[0]
   managed_policy_arn = "arn:aws:iam::aws:policy/AdministratorAccess"
@@ -99,6 +103,7 @@ resource "aws_ssoadmin_account_assignment" "DevOps-group-prod-assignment" {
 
 }
 
+# Devops permission set assignment to dev account
 resource "aws_ssoadmin_account_assignment" "DevOps-group-dev-assignment" {
   instance_arn       = tolist(data.aws_ssoadmin_instances.nimbus-identity-center.arns)[0]
   permission_set_arn = aws_ssoadmin_permission_set.DevOps_permission_set.arn
@@ -126,6 +131,7 @@ resource "aws_ssoadmin_permission_set" "Support_permission_set" {
   relay_state      = "https://console.aws.amazon.com/cloudwatch/home?region=us-east-1#" # url to redirect to cloudwatch for support to monitor
 }
 
+# Attaching the managed policy as inline policy for Support Permission Set.
 resource "aws_ssoadmin_managed_policy_attachment" "SupportPolicy" {
   instance_arn       = tolist(data.aws_ssoadmin_instances.nimbus-identity-center.arns)[0]
   managed_policy_arn = "arn:aws:iam::aws:policy/ReadOnlyAccess"
@@ -133,7 +139,7 @@ resource "aws_ssoadmin_managed_policy_attachment" "SupportPolicy" {
 }
 
 
-# Support Permission set assignment to support group
+# Support Permission set assignment to prod account
 resource "aws_ssoadmin_account_assignment" "Support-group-prod-assignment" {
   instance_arn       = tolist(data.aws_ssoadmin_instances.nimbus-identity-center.arns)[0]
   permission_set_arn = aws_ssoadmin_permission_set.Support_permission_set.arn
@@ -146,6 +152,7 @@ resource "aws_ssoadmin_account_assignment" "Support-group-prod-assignment" {
 
 }
 
+# Support Permission set assignment to dev account
 resource "aws_ssoadmin_account_assignment" "Support-group-dev-assignment" {
   instance_arn       = tolist(data.aws_ssoadmin_instances.nimbus-identity-center.arns)[0]
   permission_set_arn = aws_ssoadmin_permission_set.Support_permission_set.arn
@@ -171,7 +178,7 @@ resource "aws_ssoadmin_permission_set" "Developer_crucial_permission_set" {
 }
 
 
-# Created inline policy for developers as the managed permission does not allow creation of ecr repo.
+# Created custom policy for developers as the managed permission does not allow creation of ecr repo.
 data "aws_iam_policy_document" "Dev_Ecr_Policy" {
   statement {
     sid    = "AllowEcrRepoCreation"
@@ -187,6 +194,7 @@ data "aws_iam_policy_document" "Dev_Ecr_Policy" {
 
 }
 
+# Attaching the above policy as inline policy for Developer Permission Set
 resource "aws_ssoadmin_permission_set_inline_policy" "DevInlinePolicyDoc" {
   inline_policy      = data.aws_iam_policy_document.Dev_Ecr_Policy.json
   instance_arn       = tolist(data.aws_ssoadmin_instances.nimbus-identity-center.arns)[0]
@@ -194,6 +202,7 @@ resource "aws_ssoadmin_permission_set_inline_policy" "DevInlinePolicyDoc" {
 
 }
 
+# Attaching the managed policy as inline policy for Developer Permission Set - AmazonEC2ContainerRegistryPowerUser
 resource "aws_ssoadmin_managed_policy_attachment" "DeveloperCrucialPolicy" {
   instance_arn       = tolist(data.aws_ssoadmin_instances.nimbus-identity-center.arns)[0]
   managed_policy_arn = "arn:aws:iam::aws:policy/AmazonEC2ContainerRegistryPowerUser"
@@ -203,7 +212,7 @@ resource "aws_ssoadmin_managed_policy_attachment" "DeveloperCrucialPolicy" {
 
 
 
-# Developers Permission set assignment to DevOps group
+# Developers ReadOnly(support) Permission set assignment to Developers group and Prod account.
 resource "aws_ssoadmin_account_assignment" "Developers-group-prod-assignment" {
   instance_arn       = tolist(data.aws_ssoadmin_instances.nimbus-identity-center.arns)[0]
   permission_set_arn = aws_ssoadmin_permission_set.Support_permission_set.arn # Devs will have readonly access to production like support.
@@ -216,6 +225,7 @@ resource "aws_ssoadmin_account_assignment" "Developers-group-prod-assignment" {
 
 }
 
+# Developers ECR Power user Permission set assignment to Developers group and Dev account.
 resource "aws_ssoadmin_account_assignment" "Developer-group-dev-assignment" {
   instance_arn       = tolist(data.aws_ssoadmin_instances.nimbus-identity-center.arns)[0]
   permission_set_arn = aws_ssoadmin_permission_set.Developer_crucial_permission_set.arn

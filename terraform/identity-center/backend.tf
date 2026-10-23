@@ -1,3 +1,4 @@
+# Terraform backend configuration for state management with s3 bucket.
 terraform {
   backend "s3" {
     bucket       = "sof-terraform-projects-states"

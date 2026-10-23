@@ -1,3 +1,4 @@
+# Variables created from outputs of 'orgbootstrap/' member accounts.
 variable "prod-account-id" {
   type        = string
   default     = "989524731242"
