@@ -474,7 +474,25 @@ CloudWatch relay state:
 
 ### 3.8 Limitations and Future Improvements
 
-> [!CAUTION] To be added
+#### Limitatiion
+As a demonstration of AWS Organizations and IAM Identity Center, this project focuses on foundational multi-account governance, organizational structure, Service Control Policies (SCPs), and team-based access management. The current implementation has the following limitations:
+
+- **No centralized logging and security account:** The architecture does not include a dedicated account for centralized log collection, security monitoring, and audit activities.
+- **No AWS Control Tower integration:** Account governance is implemented directly through AWS Organizations and Terraform rather than through an orchestration framework such as AWS Control Tower.
+- **No workload deployment roles:** The project does not yet implement dedicated federated IAM roles for automated infrastructure and application deployments across the development and production accounts.
+- **Limited centralized compliance visibility:** The environment does not include a centralized dashboard for reviewing compliance status across member accounts.
+- **No external identity provider integration:** Workforce access relies on IAM Identity Center without integration with an external identity provider for federated authentication.
+- **No centralized observability architecture:** CloudWatch monitoring, log aggregation, and operational visibility have not been consolidated into a dedicated monitoring account.
+
+#### Future Improvements
+The following improvements would extend the current implementation toward a more comprehensive enterprise AWS governance architecture:
+- **Establish a centralized logging and security account:** Introduce a dedicated member account for collecting and retaining audit logs, centralizing security findings, and supporting security investigations across the organization.
+- **Evaluate AWS Control Tower:** Integrate AWS Control Tower to simplify account provisioning, establish landing-zone guardrails, and standardize governance across organizational accounts.
+- **Implement federated workload deployment roles:** Configure IAM roles using OpenID Connect (OIDC) federation for CI/CD pipelines, enabling controlled and auditable deployments into development and production without relying on long-lived AWS access keys.
+- **Centralize compliance monitoring:** Use AWS Control Tower, AWS Config, and organization-wide aggregation where appropriate to improve compliance visibility, identify non-compliant resources, and monitor configuration changes across accounts.
+- **Integrate an external identity provider:** Connect IAM Identity Center to an external identity provider to support centralized workforce authentication, single sign-on, and streamlined user lifecycle management.
+- **Introduce centralized observability:** Establish a dedicated monitoring account or centralized monitoring architecture for CloudWatch metrics, logs, alarms, and dashboards, improving operational visibility across the organization.
+
 
 
 ### 3.9 Cleanup and Resource Lifecycle
